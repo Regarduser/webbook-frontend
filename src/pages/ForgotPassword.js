@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import logo  from '../assets/black-logo.png'
 import logo_with_title  from '../assets/logo-with-title.png'
+import "../css/All.css"
 
 
 
@@ -43,40 +44,28 @@ const handleForgotPassword = (e)=>{
 
   return (
     <>
-    <div className='otp-container' id='forgot-container'>
-      {/* left side */}
-      <div className='otp-left'>
-        <Link to={"/login"} className='otp-link'>&larr;  Back</Link>
-      <div className='otp-container-left'>
-          <div className='otp-text'>
-            <div className='otp-img'>
-                <img src={logo} alt="logo" />
-            </div>
-          </div>
-          <h1 className='otp-message'>Check your Mailbox</h1>
-          <p className='otp-p'>Please enter the email to proceed</p>
-          <div className='otp-form'>
-          <form onSubmit={handleForgotPassword}>
-            <div className='form2'>
-              <input type="text" value={email} onChange={(e) =>setEmail(e.target.value)} placeholder='Email' className='form-input' required />
-            </div>
-          <button type='submit' className='btn-2' disabled={loading ? true : false}>Reset Password</button>
-          </form>
-          </div>
-          
-      </div>
-      </div>
-
-      {/* right side */}
-      <div className='md-hidden otp-right ' id='forgot-right'>
-        <div>
-          <div className='otp-img2'>
-            <img src={logo_with_title} alt="logo" />
-          </div>
-          <p className='otp-p2'>New to our platform? Sign up now.</p>
-          <Link to={"/register"} className='btn-2'>Sign Up</Link>
+      <div className='login-body'>
+    <div className="back-btn" >
+        <Link to="/login" className="back-space"> &larr; Back</Link>
+    </div>
+    <div className="logo">
+        <i className="fa-solid fa-question" ></i>
+    </div>
+    <div className="Main-header">
+        <div className="Name-header">
+            <header>Forget Password</header>
+            <p>Enter your registered <br/>E-mail</p>
         </div>
-      </div>
+        <form onSubmit={handleForgotPassword}>
+        <div className="input-box">
+        <input type="text" value={email} onChange={(e) =>setEmail(e.target.value)} placeholder='Email' class="input-field" required />
+        </div>
+        <div className="input-submit">
+        <button type='submit' className='Reset-btn' disabled={loading ? true : false}>Reset Password</button>
+        </div>
+        </form>
+        
+    </div>
     </div>
       
     </>
