@@ -53,27 +53,29 @@ function Registers() {
     <>
     <div className='login-body'>
 
-<div class="Main-header">
-        <div class="Name-header">
-            <header>Sign Up<span class="dando">|</span> BOOK LAB </header>
+<div className="Main-header">
+        <div className="Name-header">
+            <header>Sign Up<span className="dando">|</span> BOOK LAB </header>
         </div>
         <form onSubmit={handleRegister}>
-        <div class="input-box">
-        <input type="text" class="input-field" placeholder="Your Name" autocomplete="off" required onChange={(e) => setName(e.target.value)}/>
+        <div className="input-box">
+        <input type="text" className="input-field" placeholder="Your Name" autocomplete="off" required onChange={(e) => setName(e.target.value)}/>
         </div>
         
-        <div class="input-box">
-        <input type="text" class="input-field" placeholder="E-mail" autocomplete="off" required onChange={(e) => setEmail(e.target.value)} />
+        <div className="input-box">
+        <input type="text" className="input-field" placeholder="E-mail" autocomplete="off" required onChange={(e) => setEmail(e.target.value)} />
         </div>
-        <div class="input-box">
-        <input type="password" class="input-field" placeholder="password" autocomplete="off" required onChange={(e) => setPassword(e.target.value)}  />
+        <div className="input-box">
+        <input type="password" className="input-field" placeholder="password" autocomplete="off" required onChange={(e) => setPassword(e.target.value)}  />
         </div>
-        <div class="input-submit">
-            <button class="submit-btn" id="submit">Sign Up</button>
+       
+        <div className="input-submit">
+            <button className="submit-btn" id="submit">Sign Up</button>
             
         </div>
         </form>
-        <div class="page-link">
+       
+        <div className="page-link2">
             <p>Have an account? <Link to="/login">Login</Link></p>
         </div>
         
