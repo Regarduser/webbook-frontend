@@ -5,6 +5,7 @@ import { OtpVerification, resetAuthSlice } from '../store/slice/authSlice';
 import { toast } from 'react-toastify';
 import logo  from '../assets/black-logo.png'
 import logo_with_title  from '../assets/logo-with-title.png'
+import "../css/All.css"
 
 const Otp = ()=> {
   const { email } = useParams();
@@ -41,43 +42,37 @@ const Otp = ()=> {
 
   return (
     <>
-    <div className='otp-container'>
-      {/* left side */}
-      <div className='otp-left'>
-        <Link to={"/login"} className='otp-link'>&larr;  Back</Link>
-      <div className='otp-container-left'>
-          <div className='otp-text'>
-            <div className='otp-img'>
-                <img src={logo} alt="logo" />
-            </div>
-          </div>
-          <h1 className='otp-message'>Check your Mailbox</h1>
-          <p className='otp-p'>Please enter the otp to proceed</p>
-          <div className='otp-form'>
-          <form onSubmit={handleOtpVerification}>
-            <div className='form2'>
-              <input type="number" value={otp} onChange={(e) =>setOtp(e.target.value)} placeholder='OTP' className='form-input' />
-          
-          <button type='submit' className='btn-2'>Verify</button>
-            </div>
-          </form>
-          </div>
-          
-      </div>
-      </div>
-
-      {/* right side */}
-      <div className='md-hidden otp-right'>
-        <div>
-          <div className='otp-img2'>
-            <img src={logo_with_title} alt="logo" />
-          </div>
-          <p className='otp-p2'>New to our platform? Sign up now.</p>
-          <Link to={"/register"} className='btn-2'>Sign Up</Link>
+    <div className='login-body'>
+      <div className="main">
+    <form onSubmit={handleOtpVerification}>
+        
+        <div className="icon text-center ">
+            <span className="material-symbols-outlined" id="icon">
+                mark_email_read
+                </span>
         </div>
-      </div>
+           
+    <h1 className="block">Verification code</h1>
+    <div className="Otp text-center">
+        <input type="text" maxLength={5} value={otp} onChange={(e)=>setOtp(e.target.value)} placeholder='Enter Code' id="i1" inputmode="numeric"/>
+        {/* <input type="text" id="i2" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i3" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i4" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i5" maxlength="1" inputmode="numeric"/> */}
+        <div className="resend">
+            <section>
+                <Link href="#">Resend Otp</Link>
+
+            </section>
+        </div>
+        <div className="btn">
+            <button className="verify-btn">Verify</button>
+
+        </div>
     </div>
-      
+    </form>
+</div>
+</div>
     </>
   )
 }
