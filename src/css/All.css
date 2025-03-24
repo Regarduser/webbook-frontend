@@ -132,6 +132,17 @@ a:hover{
     font-weight: 600;
 
 }
+.page-link2{
+    text-align: center;
+    font-size: 15px;
+    margin-top: 40px;
+
+}
+.page-link2 a{
+    color: #000;
+    font-weight: 600;
+
+}
 
 /* back btn in forget or reset password */
 .back-btn{
