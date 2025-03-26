@@ -50,15 +50,15 @@ const SettingPopup = () => {
            
                 <div className="text-content">
                   {/* <label className='text'>current Password</label> */}
-                  <input type="password" value={currentPassword} onChange={(e)=> SetcurrentPassword(e.target.value)} placeholder="current password" className='admin-input' />
+                  <input type="password" value={currentPassword} onChange={(e)=> SetcurrentPassword(e.target.value)} placeholder="Current Password" className='admin-input' />
                 </div>
                 <div className="text-content">
                   {/* <label className='text'>Email</label> */}
-                  <input type="password" value={newPassword} onChange={(e)=> SetnewPassword(e.target.value)} placeholder="new Password" className='admin-input' />
+                  <input type="password" value={newPassword} onChange={(e)=> SetnewPassword(e.target.value)} placeholder="New Password" className='admin-input' />
                 </div>
                 <div className="text-content">
                   {/* <label className='text'>Password</label> */}
-                  <input type="password" value={confirmNewPassword} onChange={(e)=> SetconfirmNewPassword(e.target.value)} placeholder="confirm Password" className='admin-input' />
+                  <input type="password" value={confirmNewPassword} onChange={(e)=> SetconfirmNewPassword(e.target.value)} placeholder="Confirm Password" className='admin-input' />
                 </div>
       
                 <div className="btn-container">

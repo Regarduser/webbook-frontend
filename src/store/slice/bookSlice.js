@@ -1,5 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
+import { toggleaddBookPopup } from './popUpSlice';
+import {toast} from 'react-toastify'
 
 const bookSlice = createSlice({
     name : "book",
@@ -38,6 +40,19 @@ const bookSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteBookRequest(state){
+            state.loading = true;
+            state.error = null;
+            state.message = null;
+        },
+        deleteBookSuccess(state, action){
+            state.loading = false;
+            state.message = action.payload;
+        },
+        deleteBookFailed(state, action){
+            state.loading = false;
+            state.error = action.payload;
+        },
         resetBookSlice(state){
             state.error = null;
             state.message = null;
@@ -48,7 +63,7 @@ const bookSlice = createSlice({
 
 export const fetchAllBooks = () => async(dispatch)=>{
     dispatch(bookSlice.actions.fetchBookRequest());
-    await axios.get(`${process.env.REACT_APP_BACKENDLINK}/api/v1/book/all`, {withCredentials : true}).then(res=>{
+    await axios.get("http://localhost:4000/api/v1/book/all", {withCredentials : true}).then(res=>{
         dispatch(bookSlice.actions.fetchBookSuccess(res.data.books))
     }).catch(err=>{
         dispatch(bookSlice.actions.fetchBookFailed(err.response.data.message)); 
@@ -57,16 +72,37 @@ export const fetchAllBooks = () => async(dispatch)=>{
 
 export const addBook = (data) => async (dispatch)=>{
     dispatch(bookSlice.actions.addBookRequest())
-    await axios.post(`${process.env.REACT_APP_BACKENDLINK}/api/v1/book/admin/add`, data, {withCredentials : true ,
+    await axios.post("http://localhost:4000/api/v1/book/admin/add", data, {withCredentials : true ,
         headers : {
             "Content-Type" : "application/json"
         }
     }).then(res=>{
-        bookSlice.actions.addBookSuccess(res.data.message)
+            dispatch(bookSlice.actions.addBookSuccess(res.data.message));
+            dispatch(toggleaddBookPopup());
+            
     }).catch(err=>{
-        dispatch(bookSlice.actions.addBookFailed(err.response.data.message))
+        const errorMessage = err.response?.data?.message || "Something went wrong";
+        dispatch(bookSlice.actions.addBookFailed(errorMessage));
+        toast.error(errorMessage)
+
     });
 };
+
+export const deleteBook = (id) => async (dispatch)=>{
+    dispatch(bookSlice.actions.deleteBookRequest())
+    await axios.delete(`http://localhost:4000/api/v1/book/delete/${id}`, {withCredentials : true}).then(res=>{
+            dispatch(bookSlice.actions.deleteBookSuccess(res.data.message));
+            
+    }).catch(err=>{
+        const errorMessage = err.response?.data?.message || "Something went wrong";
+        dispatch(bookSlice.actions.deleteBookFailed(errorMessage));
+
+    });
+};
+
+
+
+
 
 export const resetBookSlice = ()=>(dispatch)=>{
     dispatch(bookSlice.actions.resetBookSlice())

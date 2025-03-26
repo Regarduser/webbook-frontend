@@ -36,7 +36,7 @@ const userSlice = createSlice({
 
 export const fetchAllUsers = ()=> async (dispatch) => {
         dispatch(userSlice.actions.fetchAllUserRequest());
-        await axios.get(`${process.env.REACT_APP_BACKENDLINK}/api/v1/user/all`, {withCredentials : true}).then(res=>{
+        await axios.get("http://localhost:4000/api/v1/user/all", {withCredentials : true}).then(res=>{
             dispatch(userSlice.actions.fetchAllUserSuccess(res.data.users))
         }).catch(err=>{
             dispatch(userSlice.actions.fetchAllUserFailed(err.res.data.message))
@@ -45,7 +45,7 @@ export const fetchAllUsers = ()=> async (dispatch) => {
 
 export const addNewAdmin = (data)=> async (dispatch) => {
         dispatch(userSlice.actions.addNewAdminRequest());
-        await axios.post(`${process.env.REACT_APP_BACKENDLINK}/api/v1/user/add/newAdmin`, data, {
+        await axios.post("http://localhost:4000/api/v1/user/add/newAdmin", data, {
             withCredentials : true,
             headers : {
                 "Content-Type" : 'multipart/form-data'

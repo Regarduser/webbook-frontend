@@ -61,6 +61,7 @@ const AddNewAdmin = () => {
 
           <form onSubmit={handleNewAdmin}>
             {/* Avatar selection */}
+            
             <div className='avatar-section'>
               <label htmlFor='avatarInput' className='cursor-pointer'>
                   <img src={avatarPreview? avatarPreview : placeholder } alt="avatar" className='avatar-img' />
@@ -68,26 +69,24 @@ const AddNewAdmin = () => {
               </label>
             </div>
           <div className="text-content">
-            <label className='text'>Name</label>
-            <input type="text" value={name} onChange={(e)=> setName(e.target.value)} placeholder="Admin's Name" className='admin-input' />
+            <input type="text" value={name} onChange={(e)=> setName(e.target.value)} placeholder="Name" className='admin-input' />
           </div>
           <div className="text-content">
-            <label className='text'>Email</label>
-            <input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} placeholder="Admin's Email" className='admin-input' />
+            <input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} placeholder="Email" className='admin-input' />
           </div>
           <div className="text-content">
-            <label className='text'>Password</label>
-            <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)} placeholder="Admin's Password" className='admin-input' />
+            <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)} placeholder="Password" className='admin-input' />
           </div>
-
+         
           <div className="btn-container">
             <button type='button' className='btn3' onClick={()=>dispatch(toggleAddNewAdminPopup())}>Close</button>
             <button type='submit' className='btn3' >Add</button>
           </div>
+          </form>
           
           
 
-          </form>
+          
         </div>
       </div>
     </div>

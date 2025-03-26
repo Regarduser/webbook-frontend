@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './store/slice/authSlice';
 import { fetchAllUsers } from './store/slice/userSlice';
 import { fetchAllBooks } from './store/slice/bookSlice';
+import { fetchAllBorrowedBooks, fetchUserBorrowedBooks } from './store/slice/borrowSlice';
 
 function App() {
   const {
@@ -27,8 +28,12 @@ function App() {
   useEffect(()=>{
     dispatch(getUser());
     dispatch(fetchAllBooks())
+    if(isAuthenticated && user?.role === "user"){
+      dispatch(fetchUserBorrowedBooks())
+    }
     if(isAuthenticated && user?.role === "Admin"){
       dispatch(fetchAllUsers())
+      dispatch(fetchAllBorrowedBooks())
     }
   }, [isAuthenticated])
   return (

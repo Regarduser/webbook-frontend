@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Link, Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Login, resetAuthSlice } from '../store/slice/authSlice';
 import logo  from '../assets/black-logo.png'
 import logo_with_title  from '../assets/logo-with-title.png'
-import "../css/All.css"
 
 const Logins = ()=> {
   const [email, setEmail] = useState("");
@@ -51,35 +50,46 @@ if(isAuthenticated){
 
   return (
     <>
-    <div className='login-body'>
+    <div className='otp-container'>
+      {/* left side */}
+      <div className='otp-left'>
+      <div className='otp-container-left'>
+          <div className='otp-text'>
+            <div className='otp-img'>
+                <img src={logo} alt="logo" />
+            </div>
+          </div>
+          <h1 className='otp-message'>Welcome Back !!</h1>
+          <p className='otp-p'>Please enter your credentails to log in</p>
+          <div className='otp-form'>
+          <form onSubmit={handleLogin}>
+            <div className='form2'>
+              <input type="email" value={email} onChange={(e) =>setEmail(e.target.value)} placeholder='Email' className='form-input' />
+              <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)} placeholder='Password' className='form-input' />
+            </div>
+          <Link to={"/password/forgot"} className='login-link'>Forgot Password ?</Link>
+          <div className='login-to-register'>
+            <p>New to our platform ? <Link to={"/register"} className='otp-p'>Sign Up</Link></p>
+          </div>
+          <button type='submit' className='btn-2'>Login</button>
+          </form>
+          </div>
+          
+      </div>
+      </div>
 
-    <div className="Main-header">
-        <div className="Name-header">
-            <header>Login<span className="dando">|</span> BOOK LAB </header>
+      {/* right side */}
+      <div className='md-hidden otp-right'>
+        <div>
+          <div className='otp-img2'>
+            <img src={logo_with_title} alt="logo" />
+          </div>
+          <p className='otp-p2'>New to our platform? Sign up now.</p>
+          <Link to={"/register"} className='btn-2'>Sign Up</Link>
         </div>
-        <form onSubmit={handleLogin}>
-        <div className="input-box">
-            <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} className="input-field" placeholder="E-mail" autocomplete="off" required/>
-        </div>
-        <div className="input-box">
-            <input type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} className="input-field" placeholder="password" autocomplete="off" required/>
-        </div>
-        <div className="forget">
-            <section>
-                <Link to="/password/forgot">Forget Password ?</Link>
-            </section>
-        </div>
-
-        <div className="input-submit">
-            <button className="submit-btn" id="submit">Login</button>
-        </div>
-
-        </form>
-        <div className="page-link">
-        <p>Don't have account? <Link to="/register">Sign Up</Link></p>
-        </div>
+      </div>
     </div>
-    </div>
+      
     </>
   )
 }

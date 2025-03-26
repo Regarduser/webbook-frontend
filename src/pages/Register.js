@@ -6,7 +6,6 @@ import { resetAuthSlice, Register } from '../store/slice/authSlice'
 import logo_with_title  from '../assets/logo-with-title.png'
 import logo  from '../assets/black-logo.png'
 import { Link } from 'react-router-dom'
-import "../css/All.css"
 
 function Registers() {
   const [name, setName] = useState('')
@@ -49,39 +48,67 @@ function Registers() {
   }
 
   return (
-
     <>
-    <div className='login-body'>
+      <div className='register-main'>
 
-<div className="Main-header">
-        <div className="Name-header">
-            <header>Sign Up<span className="dando">|</span> BOOK LAB </header>
+        {/* left side */}
+        <div className='md-hidden register-left'>
+          <div className='text'>
+            <div className='otp-img2'>
+              <img src={logo_with_title} alt="logo" />
+            </div>
+            <p className='otp-p2'>already have Account ? sign in now.</p>
+            <Link to={"/login"} className='btn'>SIGN IN</Link>
+          </div>
         </div>
-        <form onSubmit={handleRegister}>
-        <div className="input-box">
-        <input type="text" className="input-field" placeholder="Your Name" autocomplete="off" required onChange={(e) => setName(e.target.value)}/>
+        {/* right  side */}
+        <div className='register-right'>
+          <div >
+            <div className='right-text'>
+            <div className='right-heading'>
+            <h3 className='sign-text'>SIGN UP</h3>
+            <img className='logo-right' src={logo} alt="logo" />
+            </div>
+            </div>
+            <p className='right-p'>Please provide your information to Sign Up</p>
+            <form onSubmit={handleRegister}>
+              <div className='form'>
+                <input 
+                type="text" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                placeholder='Full Name'
+                className='form-input'
+                />
+              </div>
+              <div className='form'>
+                <input 
+                type="text" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                placeholder='email Address'
+                className='form-input'
+                />
+                </div>
+                <div className='form'>
+                <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder='Password'
+                className='form-input'
+                />
+              </div>
+              <div className='login-to-register form-text'>
+              <p>Already have account ?
+                <Link to='/login' className='form-text'> Sign In</Link>
+              </p>
+              </div>
+              <button type='submit' className='btn-2'>Sign Up</button>
+            </form>
+          </div>
         </div>
-        
-        <div className="input-box">
-        <input type="text" className="input-field" placeholder="E-mail" autocomplete="off" required onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div className="input-box">
-        <input type="password" className="input-field" placeholder="password" autocomplete="off" required onChange={(e) => setPassword(e.target.value)}  />
-        </div>
-       
-        <div className="input-submit">
-            <button className="submit-btn" id="submit">Sign Up</button>
-            
-        </div>
-        </form>
-       
-        <div className="page-link2">
-            <p>Have an account? <Link to="/login">Login</Link></p>
-        </div>
-        
-    </div>
-</div>
-        
+      </div>
 
     </>
   )

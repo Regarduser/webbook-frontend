@@ -29,7 +29,7 @@ function Home() {
   const renderComponent = () => {
     switch (selectComponent) {
       case "Dashboard":
-        return user?.role === "User" ? (
+        return user?.role === "user" ? (
           <UserDashboard />
         ) : (
           <AdminDashboard />
@@ -54,7 +54,7 @@ function Home() {
         return <MyBorrowedBooks />
 
       default:
-        return user?.role === "User" ? (
+        return user?.role === "user" ? (
           <UserDashboard />
         ) : (
           <AdminDashboard />

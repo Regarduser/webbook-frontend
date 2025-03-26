@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { act } from "react";
+import { togglerecordBookPopup } from './popUpSlice'
+import { toast } from "react-toastify";
 
 const borrowSlice = createSlice({
     name : "borrow",
@@ -76,40 +78,51 @@ const borrowSlice = createSlice({
 
 export const fetchUserBorrowedBooks = ()=> async(dispatch)=>{
     dispatch(borrowSlice.actions.fetchUserBorrowedBooksRequest());
-    await axios.get(`${process.env.REACT_APP_BACKENDLINK}/api/v1/borrow/my-borrowed-book`, {withCredentials :true}).then(res=>{
+    await axios.get("http://localhost:4000/api/v1/borrow/my-borrowed-book", {withCredentials :true}).then(res=>{
         dispatch(borrowSlice.actions.fetchUserBorrowedBooksSuccess(res.data.borrowedBooks))
-    }).then(err=>{
+    }).catch(err=>{
         dispatch(borrowSlice.actions.fetchUserBorrowedBooksFailed(err.response.data.message))
     })
 }
 
 export const fetchAllBorrowedBooks= ()=> async(dispatch)=>{
     dispatch(borrowSlice.actions.fetchAllBorrowedBooksRequest());
-    await axios.get(`${process.env.REACT_APP_BACKENDLINK}/api/v1/borrow/borrowed-book-by-users`, {withCredentials :true}).then(res=>{
+
+    await axios.get("http://localhost:4000/api/v1/borrow/borrowed-book-by-users", {withCredentials :true}).then(res=>{
+    
+
         dispatch(borrowSlice.actions.fetchAllBorrowedBooksSuccess(res.data.borrowedBooks))
-    }).then(err=>{
+        // console.log(res.data.borrowedBooks)
+    }).catch(err=>{
         dispatch(borrowSlice.actions.fetchAllBorrowedBooksFailed(err.response.data.message))
     })
 }
 
 export const recordBook = (email, id)=> async(dispatch)=>{
     dispatch(borrowSlice.actions.recordBookRequest())
-    await axios.post(`${process.env.REACT_APP_BACKENDLINK}/api/v1/borrow/record-borrow-book/${id}`, {email}, {withCredentials : true,
+    await axios.post(`http://localhost:4000/api/v1/borrow/record-borrow-book/${id}`, {email}, {withCredentials : true,
         headers : {
             "Content-Type" : "application/json"
         }
         
     }).then(res=>{
+    console.log("✅ API Response:", res.data);
+
         dispatch(borrowSlice.actions.recordBookSuccess(res.data.message))
+        dispatch(fetchAllBorrowedBooks())
+        dispatch(fetchUserBorrowedBooks())
+        // dispatch(togglerecordBookPopup())
+        toast.success(res.data.message)
+        
     }).catch(err=>{
-        dispatch(borrowSlice.actions.recordBookFailed(err.response.data.message))
+        dispatch(borrowSlice.actions.recordBookFailed(err.response?.data?.message || "Something went wrong"));
     })
 }
 
 
-export const returnBook = (email, id)=> async(dispatch)=>{
+export const returnBook = (id, email)=> async(dispatch)=>{
     dispatch(borrowSlice.actions.returnBookRequest())
-    await axios.put(`${process.env.REACT_APP_BACKENDLINK}/api/v1/borrow/return-borrowed-book/${id}`, {email}, {withCredentials : true,
+    await axios.put(`http://localhost:4000/api/v1/borrow/return-borrowed-book/${id}`, {email}, {withCredentials : true,
         headers : {
             "Content-Type" : "application/json"
         }

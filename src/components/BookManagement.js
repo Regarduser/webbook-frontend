@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import {BookA, NotebookPen} from 'lucide-react'
+import {BookA, NotebookPen, Delete} from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleaddBookPopup, togglereadBookPopup, togglerecordBookPopup } from '../store/slice/popUpSlice'
 import { toast } from 'react-toastify'
-import { fetchAllBooks, resetBookSlice } from '../store/slice/bookSlice'
+import { fetchAllBooks, resetBookSlice, deleteBook } from '../store/slice/bookSlice'
 import { fetchAllBorrowedBooks, resetBorrowSlice } from '../store/slice/borrowSlice'
 import Header from "../layout/Header";
-import AddBookPopup from "../popups/addBookPopup"
+import AddBookPopup from "../popups/AddBookPopup"
 import ReadBookPopup from "../popups/ReadBookPopup"
 import RecordBookPopup from "../popups/RecordBookPopup"
 
@@ -41,6 +41,8 @@ const BookManagement = () => {
 
 
 const [readbook, setReadbook] = useState({});
+const [delbook, setDelbook] = useState("");
+const [save, setSave] = useState("notsave")
 
 const openReadPopup = (id) => {
   const book = books.find((book)=> book._id === id);
@@ -48,6 +50,10 @@ const openReadPopup = (id) => {
   dispatch(togglereadBookPopup());
 }
 
+
+const handleDeleteBook = (id) => {
+  dispatch(deleteBook(id));
+}
 
 const [borrowBookId, setborrowBookId] = useState("")
 const openRecordBookPopup = (bookId)=>{
@@ -96,8 +102,9 @@ const searchedBooks = books.filter((book) => {
                 <span className='btn-span'>+</span>
                  Add book</button>
             )
+            
           }
-          <input type="text" placeholder='Search books... ' value={searchedKeyword} onClick={handleSearch} className='search-book' />
+          <input type="text" placeholder='Search books... ' value={searchedKeyword} onChange={handleSearch} className='search-book' />
         </div>
        </header>
 
@@ -116,13 +123,13 @@ const searchedBooks = books.filter((book) => {
                       <th className="table-head text-center">Quantity</th>
                     )
                   }
-                  <th className="table-head text-center">Price</th>
+                  {/* <th className="table-head text-center">Price</th> */}
                   <th className="table-head text-center">Availability</th>
-                  {
-                    isAuthenticated && user?.role === "Admin" && (
-                      <th className="table-head text-center">Record Book</th>
-                    )
-                  }
+                  
+                  
+                <th className="table-head text-center">Book</th>
+                    
+                  
                 </tr>
               </thead>
               <tbody>
@@ -133,22 +140,27 @@ const searchedBooks = books.filter((book) => {
                            <td className="table-head">{index + 1}</td> 
                            <td className="table-head">{book.title}</td> 
                            <td className="table-head">{book.author}</td> 
+                           
                            {
                     isAuthenticated && user?.role === "Admin" && (
                       <td className="table-head text-center">{book.quantity}</td>
                     )
                   }
-                           <td className="table-head text-center">{book.price}</td> 
-                           <td className="table-head text-center ">{book.availability ? "available" : "unavailable"}</td> 
-                           {
-                    isAuthenticated && user?.role === "Admin" && (
-                      <td className="table-head text-center"> 
-                      <BookA onClick={()=>openReadPopup(book._id)} className='cursor-pointer' />
-                        <NotebookPen onClick={()=> openRecordBookPopup(book._id)} className='cursor-pointer'/>
+          
+                           {/* <td className="table-head text-center">{book.price}</td>  */}
+                          <td className="table-head text-center ">{book.availability ? "available" : "unavailable"}</td> 
+                           
+                        <td className="table-head text-center delete-icon"> 
+                          
+                      <i class={`fa-solid ${save === "nonsave" ? "fa-plus" : "fa-check"} `}  onClick={()=>{openRecordBookPopup(book._id); setSave("save")}}></i>
+                      <i className={`fa-solid fa-book-open `} onClick={()=>openReadPopup(book._id)}  ></i>
+                      {  isAuthenticated && user?.role === "Admin" && (
+                        <i className="fa-solid fa-trash-can cursor-pointer " onClick={()=>handleDeleteBook(book._id)}></i>
+                      )}
                       </td>
-                     
-                    )
-                  }
+                  
+                   
+                  
                   </tr>
                 ))
                }
@@ -162,7 +174,8 @@ const searchedBooks = books.filter((book) => {
       </main>
       {addBookPopup && <AddBookPopup/>}
       {readBookPopup && <ReadBookPopup book={readbook}/>}
-      {recordBookPopup && <RecordBookPopup bookId={borrowBookId}/>}
+      {recordBookPopup && <RecordBookPopup bookId={borrowBookId} gmail={user.email}/>}
+      {console.log(user.email)}
     </>
   )
 }

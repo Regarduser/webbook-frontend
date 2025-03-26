@@ -5,7 +5,6 @@ import { toast } from 'react-toastify'
 import { resetAuthSlice, resetPassword } from '../store/slice/authSlice'
 import logo  from '../assets/black-logo.png'
 import logo_with_title  from '../assets/logo-with-title.png'
-import "../css/All.css"
 
 const ResetPasswords = ()=> {
   const [password, setPassword] = useState("")
@@ -49,30 +48,43 @@ useEffect(()=>{
 
   return (
      <>
-     <div className='login-body'>
-        <div className="back-btn" >
-        <Link to="/login" className="back-space"> &larr; Back</Link>
-    </div>
-    <div className="Main-header">
-        <div className="Name-header">
-            <header>Reset Password</header>
-            <p>Create strong password for <br/>Your account</p>
+        <div className='otp-container'>
+          {/* left side */}
+          <div className='otp-left'>
+            <Link to={"/password/forgot"} className='otp-link'>&larr;  Back</Link>
+          <div className='otp-container-left'>
+              <div className='otp-text'>
+                <div className='otp-img'>
+                    <img src={logo} alt="logo" />
+                </div>
+              </div>
+              <h1 className='otp-message'>Reset Password</h1>
+              <p className='otp-p'>Please enter your new password</p>
+              <div className='otp-form'>
+              <form onSubmit={handleResetPassword}>
+                <div className='form2'>
+                  <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)} placeholder='password' className='form-input' />
+                  <input type="password" value={confirmPassword} onChange={(e) =>setConfirmPassword(e.target.value)} placeholder='confirm password' className='form-input' />
+              
+                </div>
+              <button type='submit' className='btn-2'>Reset Password</button>
+              </form>
+              </div>
+              
+          </div>
+          </div>
+    
+          {/* right side */}
+          <div className='md-hidden otp-right'>
+            <div>
+              <div className='otp-img2'>
+                <img src={logo_with_title} alt="logo" />
+              </div>
+              <p className='otp-p2'>New to our platform? Sign up now.</p>
+              <Link to={"/register"} className='btn-2'>Sign Up</Link>
+            </div>
+          </div>
         </div>
-        <form onSubmit={handleResetPassword}>
-        <div className="input-box">
-        <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)} placeholder='password' className='input-field' />
-        
-        </div>
-        <div className="input-box">
-        <input type="password" value={confirmPassword} onChange={(e) =>setConfirmPassword(e.target.value)} placeholder='confirm password' className='input-field' />
-        </div>
-        <div className="input-submit">
-            <button className="submit-btn" id="submit" >Submit</button>
-        </div>
-        </form>
-        
-    </div>
-    </div>
           
         </>
   )

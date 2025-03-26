@@ -34,8 +34,8 @@ const { users } = useSelector((state) => state.user);
                   <th className="table-head">ID</th>
                   <th className="table-head">Name</th>
                   <th className="table-head">Email</th>
-                  <th className="table-head">Role</th>
-                  <th className="table-head text-center">No. of books</th>
+                  <th className="table-head text-center">Role</th>
+                  <th className="table-head text-center">Status</th>
                   <th className="table-head text-center">Register on</th>
                 </tr>
               </thead>
@@ -46,8 +46,8 @@ const { users } = useSelector((state) => state.user);
                            <td className="table-head">{index+1}</td> 
                            <td className="table-head">{user.name}</td> 
                            <td className="table-head">{user.email}</td> 
-                           <td className="table-head">{user.role}</td> 
-                           <td className="table-head">{user?.borrowedBooks.length}</td> 
+                           <td className="table-head text-center">{user.role}</td> 
+                           <td className="table-head text-center">{user? "unban" : "ban"}</td> 
                            <td className="table-head">{formateDate(user.createdAt)}</td> 
                         </tr>
                     ))
