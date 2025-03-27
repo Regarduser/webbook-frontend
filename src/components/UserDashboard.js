@@ -3,8 +3,11 @@ import img from '../assets/the book thief.jpeg'
 import {useDispatch, useSelector} from 'react-redux'
 import { fetchAllBooks } from '../store/slice/bookSlice'
 import { togglereadBookPopup } from '../store/slice/popUpSlice'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import Header from '../layout/Header'
+import ProtectedRoutes from "../ProtectedRoutes"
+
+
 
 
 const UserDashboard = () => {
@@ -12,6 +15,7 @@ const UserDashboard = () => {
   const dispatch = useDispatch()
 
   const {books} = useSelector((state)=>state.book)
+  const {isAuthenticated} = useSelector((state)=>state.auth)
 
   
 
@@ -20,25 +24,25 @@ const UserDashboard = () => {
   const [save, setSave] = useState("notsave")
   
 
-
-  useEffect(()=>{
-    dispatch(fetchAllBooks())
-  },[])
+    useEffect(()=>{
+      if(!isAuthenticated){
+        return <Navigate to="/login"/>
+      }
+      dispatch(fetchAllBooks())
+    },[dispatch, isAuthenticated])
   
-
+    
   return (
     <>
-    <div className='sidecontainer'>
+      <ProtectedRoutes/>
+
+     <div className='sidecontainer'>
     <Header/>
 
    
     <div className=" main">
       <div className='sidecontaier all'>
-        <div className=" dashboard-container">
-            <div className="dashboard-content">
-                <h2 className="text-center">books for you</h2>
-            </div>
-        </div>
+       
         <div className="dashboard-card">
             <div className="card-container">   
             {
@@ -46,18 +50,15 @@ const UserDashboard = () => {
 
       <div className="card" key={index}>
                     <div className="card-img">
-                        <img src={img} alt="img"/>
+                        <img src={book.bookcover.url} alt="img"/>
                     </div>
                     <h3 className="text-center">{book.title}</h3>
-                    <Link to={'https://drive.google.com/file/d/17DS59Fo_gPjLC6mmY0gJhmw6nk1R8vCi/view?usp=drive_link'}>
+                    <Link to={book.source}>
                     <button className="btn btn-view" >view</button>
                     </Link>
                 </div>
-
     ))
   }
-                
-               
             </div>
         </div>
     </div>

@@ -7,10 +7,16 @@ import { fetchAllBooks, resetBookSlice } from '../store/slice/bookSlice'
 
 
 const RecordBookPopup = ({bookId, gmail}) => {
+  const [isUploading, setIsUploading] = useState(false)
+  
   const dispatch = useDispatch()
-  const handleRecordBook = (e)=>{
+  const handleRecordBook = async(e)=>{
     e.preventDefault()
-    dispatch(recordBook(gmail,  bookId))
+    setIsUploading(true)
+    await dispatch(recordBook(gmail,  bookId))
+    setIsUploading(false)
+    dispatch(togglerecordBookPopup())
+    
   }
   const {message, error} = useSelector((state)=>state.borrow)
   useEffect(()=>{
@@ -28,7 +34,6 @@ const RecordBookPopup = ({bookId, gmail}) => {
   
     }
     if(error){
-      toast.error(error)
       dispatch(resetBookSlice())
       dispatch(resetBorrowSlice())
     }
@@ -51,7 +56,7 @@ const {user} = useSelector((state)=>state.auth)
             </div>
             <div className='borrow-btn'>
               <button className='btn3' onClick={()=>dispatch(togglerecordBookPopup())}>close</button>
-              <button className='btn3' type='submit'>Save</button>
+              <button className='btn3' disabled={isUploading}  type='submit'>Save</button>
             </div>
            </form>
        

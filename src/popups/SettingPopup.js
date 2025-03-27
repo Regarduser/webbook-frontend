@@ -14,7 +14,7 @@ const SettingPopup = () => {
 
   const dispatch = useDispatch()
   const {loading, message} = useSelector((state)=> state.auth);
-  const handleUpdatePassword = (e)=>{
+  const handleUpdatePassword = async(e)=>{
     e.preventDefault()
     const data = new FormData()
     data.append("currentPassword", currentPassword)
@@ -28,7 +28,10 @@ const SettingPopup = () => {
   useEffect(()=>{
     if(message){
       toast.success(message)
-      dispatch(resetAuthSlice())
+      setTimeout(()=>{
+        dispatch(toggleSettingPopup())
+        dispatch(resetAuthSlice())
+      },500)
     }
   }, [dispatch , loading, message])
   return (

@@ -53,13 +53,13 @@ a{
 }
 
 .sidemain{
-  padding-left: 40px;
+  /* padding-left: 40px; */
   padding-top: 10px;
-  margin-top: 40px;
+  /* margin-top: 40px; */
 }
 
 .sidemain img{
-  width: 200px;
+  width: 300px;
 }
 
 .sideNav{
@@ -168,11 +168,20 @@ a{
   align-items: center;
   gap: 10px;
   padding-left: 10px;
+  
 }
 
 .header-left img{
   width: 25px;
   cursor: pointer;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  /* border: 0.5px solid black; */
+  background-color: #cfe9ee;
+  
+
 }
 
 .header-leftName{
@@ -583,7 +592,7 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
   backdrop-filter: blur(10px); /* Blur effect */
   background-color: rgba(0, 0, 0, 0.3); /* Transparent dark shade for better visibility */
-  z-index: 2; /* Peeche le jaane ke liye */
+  z-index: 5; /* Peeche le jaane ke liye */
 }
 
 
@@ -593,7 +602,7 @@ input[type="number"]::-webkit-outer-spin-button {
   top: 50%;
   left: 50%;
   transform: translate(-10%, -50%);
-  z-index: 3;
+  z-index: 6;
 }
 
 
@@ -750,6 +759,7 @@ input[type="number"]::-webkit-outer-spin-button {
   gap: 20px;
   justify-content: flex-end;
   padding-right: 40px;
+  min-width: 130px;
 }
 
 .btn-book{
@@ -834,7 +844,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* User dashboard design */
 
 .card-container{
-  width: 70vw;
+  width: 77vw;
   justify-content: center;
   display: flex;
   margin-top: 20px;
@@ -1044,7 +1054,22 @@ border-radius: 4px;
   justify-content: center;
 }
 
+/* #read-icon{
+  text-decoration: none;
+  color: #000;
+} */
 
+.fb-white{
+  color: #fff;
+}
+
+.fb-black{
+  color: #000;
+}
+
+#no-book{
+  color: #adadad;
+}
 
 
 /* Responsive styles */
@@ -1068,6 +1093,10 @@ border-radius: 4px;
 
   .right-heading{
     flex-direction: column-reverse;
+  }
+
+  .user-header{
+    font-size: 15px;
   }
 
   .login-to-register{
@@ -1124,6 +1153,14 @@ border-radius: 4px;
   width: 100vw;
  
 }
+
+.book-content{
+  padding-right: 0px;
+  white-space:nowrap ;
+  overflow-x: scroll;
+}
+
+
 
 }
 

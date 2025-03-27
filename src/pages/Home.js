@@ -7,7 +7,7 @@ import { Sidebar } from '../layout/Sidebar'
 import UserDashboard from '../components/UserDashboard'
 import AdminDashboard from '../components/AdminDashboard'
 import BookManagement from '../components/BookManagement'
-import Catalog from '../components/Catalog'
+
 import MyBorrowedBooks from '../components/MyBorrowedBooks'
 import Users from '../components/Users'
 
@@ -37,12 +37,6 @@ function Home() {
 
       case "Books":
         return <BookManagement />
-
-      case "Catalog":
-        if (user.role === "Admin") {
-          return <Catalog />
-        }
-        break
 
       case "Users":
         if (user?.role === "Admin") {

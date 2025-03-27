@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {addNewAdmin} from '../store/slice/userSlice'
+import {addNewAdmin, fetchAllUsers} from '../store/slice/userSlice'
 import { toggleAddNewAdminPopup } from '../store/slice/popUpSlice';
 import closeIcon  from '../assets/close-square.png'
 import keyIcon  from '../assets/key.png'
@@ -18,7 +18,8 @@ const AddNewAdmin = () => {
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
-
+  const [isUploading, setIsUploading] = useState(false)
+ 
   const handleImageChange = (e)=>{
     const file = e.target.files[0];
     if(file){
@@ -31,19 +32,25 @@ const AddNewAdmin = () => {
     }
   };
 
-  const handleNewAdmin = (e)=>{
+  const handleNewAdmin = async(e)=>{
     e.preventDefault();
     const data = new FormData();
     data.append("name", name)
     data.append("email", email)
     data.append("password", password)
     data.append("avatar", avatar)
-    dispatch(addNewAdmin(data))
+    setIsUploading(true)
+    await dispatch(addNewAdmin(data))
+    setIsUploading(false)
   }
   const upper = ()=>{
      const hello =  document.querySelector('.admin-container')
      hello.classList.toggle("z-index")
   }
+
+  useEffect(()=>{
+          dispatch(fetchAllUsers())
+      }, [dispatch, loading])
   return (
    
     <>
@@ -80,7 +87,7 @@ const AddNewAdmin = () => {
          
           <div className="btn-container">
             <button type='button' className='btn3' onClick={()=>dispatch(toggleAddNewAdminPopup())}>Close</button>
-            <button type='submit' className='btn3' >Add</button>
+            <button type='submit' className='btn3' disabled={isUploading} >Add</button>
           </div>
           </form>
           

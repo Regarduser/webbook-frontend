@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
 import SettingPopup from '../../popups/SettingPopup';
 import { toggleAddNewAdminPopup, toggleSettingPopup } from './popUpSlice';
+import { toast } from 'react-toastify';
 
 const authSlice = createSlice({
     name : "auth",
@@ -133,6 +134,26 @@ const authSlice = createSlice({
             state.loading = false;
             state.error = action.payload
         },
+        deleteUserRequest(state){
+            state.loading = false
+        },
+        deleteUserSuccess(state, action){
+            state.loading = true
+            state.message = action.payload
+        },
+        deleteUserFailed(state){
+            state.loading = false
+        },
+        banUserRequest(state){
+            state.loading = false
+        },
+        banUserSuccess(state, action){
+            state.loading = true
+            state.message = action.payload
+        },
+        banUserFailed(state){
+            state.loading = false
+        },
         
         resetAuthSlice(state){
             state.error = null;
@@ -141,7 +162,9 @@ const authSlice = createSlice({
             state.user = state.user;
             state.isAuthenticated = state.isAuthenticated
         }
-    }
+    },
+
+    
 })
 
 export const resetAuthSlice = ()=> (dispatch) => {
@@ -216,6 +239,7 @@ export const Logout = () => async (dispatch) => {
     })
     .then((res) => {
         dispatch(authSlice.actions.LogoutSuccess(res.data?.message || "Logout successful")); // ✅ Safe fallback
+            toast.success(res.data.message);
         // dispatch(authSlice.actions.resetAuthSlice());
     })
     .catch((error) => {
@@ -276,10 +300,58 @@ export const updatePassword = (data)=> async(dispatch)=>{
         }
      }).then(res=>{
         dispatch(authSlice.actions.updatePasswordSuccess(res.data.message))
+            
+        
      }).catch((error)=>{
         dispatch(authSlice.actions.updatePasswordFailed(error.response.data.message))
      })
 }
+
+export const deleteUser = (email)=> async(dispatch)=>{
+    dispatch(authSlice.actions.deleteUserRequest());
+    await axios.delete(`http://localhost:4000/api/v1/auth/delete/${email}`, {withCredentials : true}
+
+    ).then(res=>{
+        dispatch(authSlice.actions.deleteUserSuccess(res.data.message))
+        dispatch(getUser())
+        toast.success(res.data.message)
+    }).catch((error)=>{
+        dispatch(authSlice.actions.deleteUserFailed(error.response.data.message))
+        toast.error(error.response.data.message)
+
+    })
+}
+
+export const banUser = (email)=> async(dispatch)=>{
+    dispatch(authSlice.actions.banUserRequest());
+    await axios.put(`http://localhost:4000/api/v1/auth/ban/${email}`,{}, {withCredentials : true}
+
+    ).then(res=>{
+        dispatch(authSlice.actions.banUserSuccess(res.data.message))
+        dispatch(getUser())
+        toast.success(res.data.message)
+    }).catch((error)=>{
+        dispatch(authSlice.actions.banUserFailed(error.response.data.message))
+        toast.error(error.response.data.message)
+
+    })
+}
+
+// export const banUser = (email) => async (dispatch) => {
+//     dispatch(authSlice.actions.banUserRequest());
+
+//     await axios
+//         .put(`http://localhost:4000/api/v1/auth/ban/${email}`, {}, { withCredentials: true })
+//         .then((res) => {
+//             dispatch(authSlice.actions.banUserSuccess(res.data.message));
+//             dispatch(getUser());
+//             toast.success(res.data.message);
+//         })
+//         .catch((error) => {
+//             dispatch(authSlice.actions.banUserFailed(error?.response?.data?.message || "Failed to ban user"));
+//             toast.error(error?.response?.data?.message || "Failed to ban user");
+//         });
+// };
 
 export default authSlice.reducer;
 

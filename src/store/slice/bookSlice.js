@@ -74,16 +74,16 @@ export const addBook = (data) => async (dispatch)=>{
     dispatch(bookSlice.actions.addBookRequest())
     await axios.post("http://localhost:4000/api/v1/book/admin/add", data, {withCredentials : true ,
         headers : {
-            "Content-Type" : "application/json"
+            "Content-Type" : 'multipart/form-data'
         }
     }).then(res=>{
             dispatch(bookSlice.actions.addBookSuccess(res.data.message));
-            dispatch(toggleaddBookPopup());
+            
             
     }).catch(err=>{
         const errorMessage = err.response?.data?.message || "Something went wrong";
         dispatch(bookSlice.actions.addBookFailed(errorMessage));
-        toast.error(errorMessage)
+        
 
     });
 };

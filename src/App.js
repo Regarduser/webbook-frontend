@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom'
 import Home from './pages/Home'
 import {Logins } from './pages/Login'
 import Register from './pages/Register'
@@ -14,11 +14,13 @@ import { fetchAllUsers } from './store/slice/userSlice';
 import { fetchAllBooks } from './store/slice/bookSlice';
 import { fetchAllBorrowedBooks, fetchUserBorrowedBooks } from './store/slice/borrowSlice';
 
-function App() {
+const App = ()=> {
   const {
     user,
     isAuthenticated} = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  
+
 
   // const [user, setUser] = useState({ role: "Admin" }); 
   
@@ -35,7 +37,10 @@ function App() {
       dispatch(fetchAllUsers())
       dispatch(fetchAllBorrowedBooks())
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, dispatch])
+  document.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+  });
   return (
     <>
     <Router>

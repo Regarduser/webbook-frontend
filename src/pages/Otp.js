@@ -36,7 +36,7 @@ const Otp = ()=> {
     }, [dispatch, isAuthenticated, error, loading])
   
     if(isAuthenticated){
-      return <Navigate to="/"/>
+      return <Navigate to="/login"/>
     }
 
   return (

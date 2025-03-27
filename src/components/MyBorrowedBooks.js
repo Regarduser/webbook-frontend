@@ -8,6 +8,12 @@ import RecordBookPopup from '../popups/RecordBookPopup';
 import {toast} from 'react-toastify'
 import { fetchAllBorrowedBooks, fetchUserBorrowedBooks, resetBorrowSlice } from '../store/slice/borrowSlice';
 import { fetchAllBooks, resetBookSlice } from '../store/slice/bookSlice';
+import { Link, Navigate } from 'react-router-dom';
+import { FaSquareCheck } from 'react-icons/fa6';
+import { PiKeyReturnBold } from 'react-icons/pi';
+import ReturnBookPopup from '../popups/ReturnBookPopup';
+import ProtectedRoutes from '../ProtectedRoutes';
+
 
 
 
@@ -15,8 +21,10 @@ const MyBorrowedBooks = () => {
     const dispatch = useDispatch();
 
     const {books} = useSelector(state => state.book)
-    const {userBorrowedBooks, message, error} = useSelector(state => state.borrow)
-    const {readBookPopup} = useSelector(state => state.popup)
+    const {user} = useSelector(state => state.auth)
+    const {userBorrowedBooks, message,loading, error} = useSelector(state => state.borrow)
+    const {readBookPopup, returnBookPopup} = useSelector(state => state.popup)
+    console.log("Return Book Popup State:", returnBookPopup);
 
     const [readbook, setReadbook] = useState({});
     
@@ -53,20 +61,52 @@ const MyBorrowedBooks = () => {
 
     const booksToDisplay = filter === "nonreturned" ? nonreturnedBooks : "" ;
 
+     const [email, setEmail] = useState("")
+        const [borrowedBookId, setBorrowedBookId] = useState("")
+    
+        const openReturnBookPopup = (bookId, email)=>{
+          console.log("Return Popup Open for:", bookId, email); 
+          setBorrowedBookId(bookId)
+          setEmail(email)
+          dispatch(togglereturnBookPopup())
+        }
+
+        useEffect(()=>{
+          if(message){
+            toast.success(message)
+            dispatch(fetchAllBooks())
+            dispatch(fetchUserBorrowedBooks())
+            dispatch(fetchAllBorrowedBooks())
+            dispatch(resetBookSlice())
+            dispatch(resetBorrowSlice())
+          }
+          if(error){
+            toast.error(error)
+            dispatch(resetBookSlice())
+            dispatch(resetBorrowSlice())
+          }
+        }, [dispatch, message, error])
+        
+    const {isAuthenticated } = useSelector((state) => state.auth)
+  
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />
+    }
     
   return (
+  
     <>
+      <ProtectedRoutes/>
     
     <main className='sidecontainer'>
       <Header/>
         
         <header className='user-header borrow-header'>
-            <h2>Borrowed Books</h2>
+            <h2 className='user-header text-center'>Saved Books</h2>
         </header>
 
         <header className='user-header borrow-btn'>
             <button className={`btn5 ${filter === "nonreturned" ? "btn5-r" : ""}`} onClick={()=>setFilter("nonreturned")}>Saved Books</button>
-            
         </header>
 
         {
@@ -92,18 +132,24 @@ const MyBorrowedBooks = () => {
                       <td className='table-head'>{book.bookTitle}</td>
                       <td className='table-head'>{formateDate(book.borrowedDate)}</td>
                       <td className='table-head'>{book.dueDate}</td>
-                      <td className='table-head'>{book.returned ? "Yes" : "No"}</td>
+                      <td className='table-head text-center'>{book.returnDate ? "" : (<i className="fa-solid fa-trash" onClick={()=>openReturnBookPopup(book?.bookId, user.email)}></i>  )}</td>
+                      {console.log(user)}
                       <td className='table-head cursor-pointer text-center'>
-                      <i className="fa-solid fa-book-open " onClick={()=>openReadPopup(book.bookId)}  ></i>
+                        {console.log(book)}
+                      <a href={book.bookurl} id='read-icon' target="_blank" rel="noopener noreferrer" className={`${(index + 1) % 2 === 0 ? "fb-white" : "fb-black"}`}>
+
+  <i className="fa-solid fa-book-open"></i>
+</a>
+
                       </td>
-                    </tr>
+               </tr>
                   ))
                 }
               </tbody>
               </table>
             </div>
           ) : (
-            <h3 className='sidecontainer usercontainer'> No nonreturned books found !</h3>
+            <h3 className='text-center ' id='no-book'> No book here !</h3>
             
           )
         }
@@ -112,7 +158,11 @@ const MyBorrowedBooks = () => {
     
     {
       readBookPopup && <ReadBookPopup book={readbook}/>
+      
     }
+    {
+  returnBookPopup && <ReturnBookPopup bookId={borrowedBookId} email={email} />
+}
 
       
     </>

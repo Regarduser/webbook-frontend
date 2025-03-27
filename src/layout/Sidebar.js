@@ -42,6 +42,8 @@ const {loading,
       dispatch(resetAuthSlice())
     }
   }, [dispatch, isAuthenticated, error , loading, message])
+  
+  
   return (
     <>
       <aside className={`sidebar ${isSideBarOpen ? "left-0" : "left-full"}`}>
@@ -61,10 +63,7 @@ const {loading,
         {
           isAuthenticated && user?.role === "Admin" && ( 
             <>
-            <button className='sideNavbtn' onClick={()=>setSelectComponent("Catalog")}>
-          <img src={Catalog_logo} alt="dashboard" />
-          <span>Catalog</span>
-        </button>
+           
         <button className='sideNavbtn' onClick={()=>{
           setSelectComponent("Users")}} >
           <img src={Users_logo} alt="Users" />
@@ -82,7 +81,7 @@ const {loading,
           <>
           <button className='sideNavbtn' onClick={()=>setSelectComponent("My Borrow Books")}>
           <img src={Catalog_logo} alt="Users" />
-          <span>My Borrowed Books</span>
+          <span>Save Books</span>
         </button>
           </>
         )
@@ -101,6 +100,7 @@ const {loading,
       <div className="sidecontainer">
          {addNewAdminPopup && <AddNewAdmin/>}
          {settingPopup && <SettingPopup/>}
+  
       </div>
     </>
   )

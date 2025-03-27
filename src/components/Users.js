@@ -1,9 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { use, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../layout/Header";
+import { banUser, deleteUser, getUser } from "../store/slice/authSlice";
+import { fetchAllUsers } from "../store/slice/userSlice";
 
 const Users = () => {
+  const dispatch = useDispatch()
 const { users } = useSelector((state) => state.user);
+const { user, isAuthenticated } = useSelector((state) => state.auth);
   const formateDate = (timeStamp) => {
     const date = new Date(timeStamp);
     const FormattedDate = `${String(date.getDate()).padStart(2, 0)} - ${String(
@@ -17,16 +21,35 @@ const { users } = useSelector((state) => state.user);
     return result;
   };
 
+
+const handleDeleteUser = async(email) => {
+  await dispatch(deleteUser(email));
+  dispatch(fetchAllUsers())
+  dispatch(getUser())
+
+}
+
+const handleban = async(email) => {
+  await dispatch(banUser(email));
+  dispatch(fetchAllUsers())
+  dispatch(getUser())
+
+}
+
+  useEffect(()=>{
+            dispatch(fetchAllUsers())
+  },[dispatch])
+
   return (
     <>
       <div className="sidecontainer Users-container">
         <Header />
         <header className="users-header">
-          <h1 className="user-header">Registered Users</h1>
+          <h1 className="user-header text-center">Registered Users and Admin</h1>
           </header>
         {/* table */}
 
-        {users && users.filter((u) => u.role === "user").length > 0 ? (
+        {users && users.filter((u) => u.role === "user" || "Admin").length > 0 ? (
           <div className="table-container">
             <table className="table">
               <thead className="thead"> 
@@ -35,20 +58,33 @@ const { users } = useSelector((state) => state.user);
                   <th className="table-head">Name</th>
                   <th className="table-head">Email</th>
                   <th className="table-head text-center">Role</th>
+                  {  isAuthenticated && user.role === "Admin" && (
+                  <th className="table-head text-center">Delete</th>
+
+                  )}
                   <th className="table-head text-center">Status</th>
                   <th className="table-head text-center">Register on</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                    users.filter(u=>u.role === "user").map((user, index)=>(
+                    users.filter(u=>u.role === "user" || "Admin").map((user, index)=>(
                         <tr key={user._id} className={(index+1) % 2 === 0 ? "bg-gray" : "" } >
                            <td className="table-head">{index+1}</td> 
                            <td className="table-head">{user.name}</td> 
                            <td className="table-head">{user.email}</td> 
                            <td className="table-head text-center">{user.role}</td> 
-                           <td className="table-head text-center">{user? "unban" : "ban"}</td> 
-                           <td className="table-head">{formateDate(user.createdAt)}</td> 
+                           {  isAuthenticated && user.role === "user" && (
+                           <td className="table-head text-center">
+                        <i className="fa-solid fa-trash-can cursor-pointer "  onClick={()=>handleDeleteUser(user.email)}></i>
+                        </td> 
+                      )}
+                         {  isAuthenticated && user.role === "Admin" && (
+
+                           <td className="table-head text-center">{"admin"}</td> 
+                         )}
+                           <td className="table-head text-center">{user.isBanned? (<i className="fa-solid fa-ban" onClick={()=>handleban(user.email)}></i>) : (<i className="fa-solid fa-key" onClick={()=>handleban(user.email)}></i>)}</td> 
+                           <td className="table-head text-center">{formateDate(user.createdAt)}</td> 
                         </tr>
                     ))
                 }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { act } from "react";
-import { togglerecordBookPopup } from './popUpSlice'
+import { togglerecordBookPopup, togglereturnBookPopup } from './popUpSlice'
 import { toast } from "react-toastify";
 
 const borrowSlice = createSlice({
@@ -106,12 +106,13 @@ export const recordBook = (email, id)=> async(dispatch)=>{
         }
         
     }).then(res=>{
-    console.log("✅ API Response:", res.data);
+    // console.log("✅ API Response:", res.data);
 
         dispatch(borrowSlice.actions.recordBookSuccess(res.data.message))
         dispatch(fetchAllBorrowedBooks())
         dispatch(fetchUserBorrowedBooks())
         // dispatch(togglerecordBookPopup())
+
         toast.success(res.data.message)
         
     }).catch(err=>{
@@ -129,6 +130,7 @@ export const returnBook = (id, email)=> async(dispatch)=>{
         
     }).then(res=>{
         dispatch(borrowSlice.actions.returnBookSuccess(res.data.message))
+        dispatch(togglereturnBookPopup())
     }).catch(err=>{
         dispatch(borrowSlice.actions.returnBookFailed(err.response.data.message))
     })
