@@ -1,0 +1,64 @@
+
+/* loading page */
+
+:root{
+    --primary-color: #000;
+    --secondary-color: #000;
+   
+    --bg-1: #000;
+    --bg-2: #f8f7f7;
+}
+
+.wrapper{
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .loader{
+    position: relative;
+    width: 300px;
+    height: 40px;
+    filter: url(#liquid);
+  }
+  
+  .loader span{
+    position:  absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    display: block;
+    box-shadow: 0 0 40px var(--primary-color);
+    background:linear-gradient(var(--secondary-color), var(--primary-color)) ;
+    animation: animate 5s ease-in-out infinite;
+    animation-delay: calc(0.2s * var(--i));
+  
+  }
+  
+  @keyframes animate {
+    0%{
+        left: 0;
+    }
+    25%{
+        left: calc(100% - 40px);
+    }
+    50%{
+        left: calc(100% - 40px);
+    }
+    75%, 100%{
+        left: 0;
+    }
+  }
+  
+  .svg2{
+    width: 0;
+    height: 0;
+  }
+  
+  

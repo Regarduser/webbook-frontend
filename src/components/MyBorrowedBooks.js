@@ -24,7 +24,7 @@ const MyBorrowedBooks = () => {
     const {user} = useSelector(state => state.auth)
     const {userBorrowedBooks, message,loading, error} = useSelector(state => state.borrow)
     const {readBookPopup, returnBookPopup} = useSelector(state => state.popup)
-    console.log("Return Book Popup State:", returnBookPopup);
+   
 
     const [readbook, setReadbook] = useState({});
     
@@ -119,7 +119,7 @@ const MyBorrowedBooks = () => {
                   <th className="table-head">Book Title</th>
                   <th className="table-head">Date & Time</th>
                   <th className="table-head">Due Date</th>
-                  <th className="table-head text-center">Returned</th>
+                  <th className="table-head text-center">Remove</th>
                   <th className="table-head text-center">view</th>
                 </tr>
               </thead>

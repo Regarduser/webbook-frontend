@@ -1,7 +1,7 @@
 .menu-btn{
   position: absolute;
   right: 24px;
-  top: 6px;
+  top: 15px;
   display: none;
   justify-content: center;
   align-items: center;
@@ -499,7 +499,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .header-right img{
-  width: 25px;
+  width: 35px;
   padding-right: 10px;
   cursor: pointer;
 }
@@ -620,6 +620,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .admin-content{
   padding: 10px 20px;
+}
+
+.admin-content-personal{
+  padding: 10px 20px;
+  height: 428px;
+  
+
 }
 
 .admin-heading{
@@ -893,7 +900,7 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
   background-color: #000;
   color: #fff;
-  padding: 0px 20px ;
+  padding: 10px 20px ;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
  }
@@ -1052,6 +1059,17 @@ border-radius: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+#form-x{
+   /* text-align: center; */
+   border: none;
+   border-radius: 20px;
+   /* border-color:none; */
+   /* width: 300px; */
+   height: auto;
+   /* margin-top: 50px; */
+   color: #000;
 }
 
 /* #read-icon{

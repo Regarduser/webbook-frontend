@@ -159,8 +159,8 @@ const authSlice = createSlice({
             state.error = null;
             state.loading = false;
             state.message = null;
-            state.user = state.user;
-            state.isAuthenticated = state.isAuthenticated
+            state.user = state.user; 
+            state.isAuthenticated = state.isAuthenticated; 
         }
     },
 
@@ -239,7 +239,7 @@ export const Logout = () => async (dispatch) => {
     })
     .then((res) => {
         dispatch(authSlice.actions.LogoutSuccess(res.data?.message || "Logout successful")); // ✅ Safe fallback
-            toast.success(res.data.message);
+            // toast.success(res.data.message);
         // dispatch(authSlice.actions.resetAuthSlice());
     })
     .catch((error) => {

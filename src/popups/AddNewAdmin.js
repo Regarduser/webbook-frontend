@@ -54,8 +54,8 @@ const AddNewAdmin = () => {
   return (
    
     <>
-    <div className='popup-overlay'>
-    <div className="admin-container" >
+    <div className='popup-overlay' onClick={()=>dispatch(toggleAddNewAdminPopup())}>
+    <div className="admin-container" onClick={(e) => e.stopPropagation()} >
       <div className='admin-header'>
         <div className="admin-content">
           <header className='admin-heading'>
@@ -66,7 +66,7 @@ const AddNewAdmin = () => {
             <img src={closeIcon} alt="close-icon" onClick={()=>dispatch(toggleAddNewAdminPopup())}/>
           </header>
 
-          <form onSubmit={handleNewAdmin}>
+          <form onSubmit={handleNewAdmin} id='form-x'>
             {/* Avatar selection */}
             
             <div className='avatar-section'>

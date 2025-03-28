@@ -5,8 +5,11 @@ import { OtpVerification, resetAuthSlice } from '../store/slice/authSlice';
 import { toast } from 'react-toastify';
 import logo  from '../assets/black-logo.png'
 import logo_with_title  from '../assets/logo-with-title.png'
+import "../css/All.css"
+
 
 const Otp = ()=> {
+  const [isLoading, setIsloading] = useState(false)
   const { email } = useParams();
   const[otp, setOtp] = useState("") 
 
@@ -18,10 +21,11 @@ const Otp = ()=> {
       user,
       isAuthenticated} = useSelector((state) => state.auth)
   
-  const handleOtpVerification = (e)=>{
-    console.log("Email:", email, "OTP:", otp);
+  const handleOtpVerification = async(e)=>{
       e.preventDefault();
-      dispatch(OtpVerification({email, otp}))
+      setIsloading(true)
+      await dispatch(OtpVerification({email, otp}))
+      setIsloading(false)
   }
   
   
@@ -34,50 +38,80 @@ const Otp = ()=> {
         dispatch(resetAuthSlice());
       }
     }, [dispatch, isAuthenticated, error, loading])
+
+      const [rloading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500); // ✅ Thoda wait karega taaki state load ho jaye
+    }, []);
   
     if(isAuthenticated){
       return <Navigate to="/login"/>
     }
+    if (rloading) {
+      return (
+        <>
+            <div className="wrapper">
+          <div className="loader">
+              <span style={{"--i":1}}></span>
+              <span style={{"--i":2}}></span>
+              <span style={{"--i":3}}></span>
+              <span style={{"--i":4}}></span>
+              <span style={{"--i":5}}></span>
+              <span style={{"--i":6}}></span>
+              <span style={{"--i":7}}></span>
+          </div>
+           <svg className='svg2'>
+              <filter id="liquid">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+                  <feColorMatrix type="matrix" values="
+                  1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 20 -10
+                  "/>
+              </filter>
+          </svg>
+      </div>  
+        </>
+      ); 
+    }
 
   return (
     <>
-    <div className='otp-container'>
-      {/* left side */}
-      <div className='otp-left'>
-        <Link to={"/login"} className='otp-link'>&larr;  Back</Link>
-      <div className='otp-container-left'>
-          <div className='otp-text'>
-            <div className='otp-img'>
-                <img src={logo} alt="logo" />
-            </div>
-          </div>
-          <h1 className='otp-message'>Check your Mailbox</h1>
-          <p className='otp-p'>Please enter the otp to proceed</p>
-          <div className='otp-form'>
-          <form onSubmit={handleOtpVerification}>
-            <div className='form2'>
-              <input type="number" value={otp} onChange={(e) =>setOtp(e.target.value)} placeholder='OTP' className='form-input' />
-          
-          <button type='submit' className='btn-2'>Verify</button>
-            </div>
-          </form>
-          </div>
-          
-      </div>
-      </div>
-
-      {/* right side */}
-      <div className='md-hidden otp-right'>
-        <div>
-          <div className='otp-img2'>
-            <img src={logo_with_title} alt="logo" />
-          </div>
-          <p className='otp-p2'>New to our platform? Sign up now.</p>
-          <Link to={"/register"} className='btn-2'>Sign Up</Link>
-        </div>
-      </div>
-    </div>
+    <div className='login-body'>
       
+    <form onSubmit={handleOtpVerification}>
+        
+        <div className="icon text-center ">
+            <span className="material-symbols-outlined" id="icon">
+                mark_email_read
+                </span>
+        </div>
+           
+    <h1 className="block">Verification code</h1>
+    <div className="Otp text-center">
+        <input type="text" maxLength={5} value={otp} onChange={(e)=>setOtp(e.target.value)} placeholder='Enter Code' id="i1" inputmode="numeric"/>
+        {/* <input type="text" id="i2" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i3" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i4" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="i5" maxlength="1" inputmode="numeric"/> */}
+        <div className="resend">
+            <section>
+                <Link href="#">Resend Otp</Link>
+
+            </section>
+        </div>
+        <div className="btn">
+            <button className="verify-btn">{isLoading ? "Verifying..." : "Verify"}</button>
+
+        </div>
+    </div>
+    </form>
+</div>
+
     </>
   )
 }

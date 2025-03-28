@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {addBook, fetchAllBooks} from '../store/slice/bookSlice'
-import { toggleaddBookPopup } from '../store/slice/popUpSlice'
+import { closeAllPopup, toggleaddBookPopup } from '../store/slice/popUpSlice'
 import { toast } from 'react-toastify'
 import placeholder  from '../assets/upload.png'
 
@@ -20,6 +20,8 @@ const AddBookPopup = () => {
   const [bookurl, setBookurl] = useState("")
   const handleAddbook = async(e)=>{
       e.preventDefault()
+      dispatch(closeAllPopup())
+
       const data = new FormData();
       data.append("title", title)
       data.append("author", author)
@@ -53,12 +55,12 @@ const AddBookPopup = () => {
   }, [dispatch, loading, message])
   return (
     <>
-        <div className='popup-overlay'>
-        <div className='admin-container'>
+        <div className='popup-overlay' onClick={()=>dispatch(toggleaddBookPopup())}>
+        <div className='admin-container'onClick={(e) => e.stopPropagation()}>
           <div className='reading-content'>
             
                <h3 className='text-xl'> Add Book</h3>
-               <form onSubmit={handleAddbook}>
+               <form onSubmit={handleAddbook} id='form-x'>
                 <div className="reading-header">
                   <label className='record-label'>Book Title</label>
                   <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Book title" className='borrow-input' required/>

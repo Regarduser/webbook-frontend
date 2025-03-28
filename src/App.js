@@ -15,11 +15,19 @@ import { fetchAllBooks } from './store/slice/bookSlice';
 import { fetchAllBorrowedBooks, fetchUserBorrowedBooks } from './store/slice/borrowSlice';
 
 const App = ()=> {
+  
   const {
     user,
     isAuthenticated} = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
-  
+    const dispatch = useDispatch()
+    
+    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+        setLoading(false);
+    }, 1500); // ✅ Thoda wait karega taaki state load ho jaye
+}, []);
+
 
 
   // const [user, setUser] = useState({ role: "Admin" }); 
@@ -27,20 +35,67 @@ const App = ()=> {
 
   
 
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   dispatch(getUser());
+  //   dispatch(fetchAllBooks())
+  //   if(isAuthenticated && user?.role === "user"){
+  //     dispatch(fetchUserBorrowedBooks())
+  //   }
+  //   if(isAuthenticated && user?.role === "Admin"){
+  //     dispatch(fetchAllUsers())
+  //     dispatch(fetchAllBorrowedBooks())
+  //   }
+  // }, [isAuthenticated, dispatch])
+  // document.addEventListener("dblclick", (event) => {
+  //   event.preventDefault();
+  // });
+
+  useEffect(() => {
     dispatch(getUser());
-    dispatch(fetchAllBooks())
-    if(isAuthenticated && user?.role === "user"){
-      dispatch(fetchUserBorrowedBooks())
+  }, [dispatch]);
+  
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      dispatch(fetchAllBooks());
+      if (user.role === "user") {
+        dispatch(fetchUserBorrowedBooks());
+      }
+      if (user.role === "Admin") {
+        dispatch(fetchAllUsers());
+        dispatch(fetchAllBorrowedBooks());
+      }
     }
-    if(isAuthenticated && user?.role === "Admin"){
-      dispatch(fetchAllUsers())
-      dispatch(fetchAllBorrowedBooks())
-    }
-  }, [isAuthenticated, dispatch])
-  document.addEventListener("dblclick", (event) => {
-    event.preventDefault();
-  });
+  }, [isAuthenticated, user, dispatch]);
+
+  if (loading) {
+    return (
+      <>
+          <div className="wrapper">
+        <div className="loader">
+            <span style={{"--i":1}}></span>
+            <span style={{"--i":2}}></span>
+            <span style={{"--i":3}}></span>
+            <span style={{"--i":4}}></span>
+            <span style={{"--i":5}}></span>
+            <span style={{"--i":6}}></span>
+            <span style={{"--i":7}}></span>
+        </div>
+         <svg className='svg2'>
+            <filter id="liquid">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+                <feColorMatrix type="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 20 -10
+                "/>
+            </filter>
+        </svg>
+    </div>  
+      </>
+    ); 
+}
+
   return (
     <>
     <Router>

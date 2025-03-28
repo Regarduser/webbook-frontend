@@ -43,12 +43,12 @@ const RecordBookPopup = ({bookId, gmail}) => {
 const {user} = useSelector((state)=>state.auth)
   return (
     <>
-    <div className='popup-overlay'>
-    <div className='admin-container'>
+    <div className='popup-overlay' onClick={()=>dispatch(togglerecordBookPopup())}>
+    <div className='admin-container' onClick={(e) => e.stopPropagation()}>
       <div className='reading-content'>
         
            <h3 className='text-xl'> Save Book</h3>
-           <form onSubmit={handleRecordBook}>
+           <form onSubmit={handleRecordBook} id='form-x'>
             <div className="reading-header">
               <label className='record-label'>User email</label>
               <input type="email" defaultValue={gmail}  className='borrow-input' required disabled={user?.role === "user"}/>

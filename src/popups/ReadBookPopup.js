@@ -6,8 +6,8 @@ const ReadBookPopup = ({book}) => {
   const dispatch = useDispatch()
   return (
     <>
-    <div className='popup-overlay'>
-      <div className='admin-container'>
+    <div className='popup-overlay' onClick={()=>dispatch(togglereadBookPopup())}>
+      <div className='admin-container' onClick={(e) => e.stopPropagation()}>
         <div className='readbook-content'>
           <h2 className='readbook-text' >view Book info</h2>
           <button className='btn3' onClick={()=>dispatch(togglereadBookPopup())}>&times;</button>

@@ -8,6 +8,7 @@ import logo  from '../assets/black-logo.png'
 import { Link } from 'react-router-dom'
 
 function Registers() {
+  const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,14 +23,24 @@ function Registers() {
 
   const navigateTo = useNavigate();
 
-  const handleRegister = (e)=>{
+  const handleRegister = async(e)=>{
     e.preventDefault();
+    setIsLoading(true)
     const data = new FormData();
     data.append("name",name)
     data.append("email",email)
     data.append("password", password)
-    dispatch(Register(data))
+    await dispatch(Register(data))
+    setIsLoading(false)
   }
+
+    const [rloading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      setTimeout(() => {
+          setLoading(false);
+      }, 1500); // ✅ Thoda wait karega taaki state load ho jaye
+  }, []);
 
   useEffect(()=>{
     if(message){
@@ -47,68 +58,68 @@ function Registers() {
     return <Navigate to="/"/>
   }
 
+  if (rloading) {
+    return (
+      <>
+          <div className="wrapper">
+        <div className="loader">
+            <span style={{"--i":1}}></span>
+            <span style={{"--i":2}}></span>
+            <span style={{"--i":3}}></span>
+            <span style={{"--i":4}}></span>
+            <span style={{"--i":5}}></span>
+            <span style={{"--i":6}}></span>
+            <span style={{"--i":7}}></span>
+        </div>
+         <svg className='svg2'>
+            <filter id="liquid">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+                <feColorMatrix type="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 20 -10
+                "/>
+            </filter>
+        </svg>
+    </div>  
+      </>
+    ); 
+  }
+
   return (
     <>
-      <div className='register-main'>
+    <div className='login-body'>
 
-        {/* left side */}
-        <div className='md-hidden register-left'>
-          <div className='text'>
-            <div className='otp-img2'>
-              <img src={logo_with_title} alt="logo" />
-            </div>
-            <p className='otp-p2'>already have Account ? sign in now.</p>
-            <Link to={"/login"} className='btn'>SIGN IN</Link>
-          </div>
+<div className="Main-header">
+        <div className="Name-header">
+            <header>Sign Up<span className="dando">|</span> BOOK LAB </header>
         </div>
-        {/* right  side */}
-        <div className='register-right'>
-          <div >
-            <div className='right-text'>
-            <div className='right-heading'>
-            <h3 className='sign-text'>SIGN UP</h3>
-            <img className='logo-right' src={logo} alt="logo" />
-            </div>
-            </div>
-            <p className='right-p'>Please provide your information to Sign Up</p>
-            <form onSubmit={handleRegister}>
-              <div className='form'>
-                <input 
-                type="text" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-                placeholder='Full Name'
-                className='form-input'
-                />
-              </div>
-              <div className='form'>
-                <input 
-                type="text" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder='email Address'
-                className='form-input'
-                />
-                </div>
-                <div className='form'>
-                <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder='Password'
-                className='form-input'
-                />
-              </div>
-              <div className='login-to-register form-text'>
-              <p>Already have account ?
-                <Link to='/login' className='form-text'> Sign In</Link>
-              </p>
-              </div>
-              <button type='submit' className='btn-2'>Sign Up</button>
-            </form>
-          </div>
+        <form onSubmit={handleRegister}>
+        <div className="input-box">
+        <input type="text" className="input-field" placeholder="Your Name" autocomplete="off" required onChange={(e) => setName(e.target.value)}/>
         </div>
-      </div>
+        
+        <div className="input-box">
+        <input type="text" className="input-field" placeholder="E-mail" autocomplete="off" required onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="input-box">
+        <input type="password" className="input-field" placeholder="password" autocomplete="off" required onChange={(e) => setPassword(e.target.value)}  />
+        </div>
+       
+        <div className="input-submit">
+            <button className="submit-btn" id="submit">{isLoading ? "signing up..." : "Sign up"}</button>
+            
+        </div>
+        </form>
+       
+        <div className="page-link2">
+            <p>Have an account? <Link to="/login">Login</Link></p>
+        </div>
+        
+    </div>
+</div>
+        
 
     </>
   )

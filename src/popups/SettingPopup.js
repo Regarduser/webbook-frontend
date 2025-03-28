@@ -4,7 +4,7 @@ import {resetAuthSlice, updatePassword} from '../store/slice/authSlice'
 import closeIcon  from '../assets/close-square.png'
 import setting  from '../assets/setting.png'
 import placeholder  from '../assets/placeholder.jpg'
-import { toggleSettingPopup } from '../store/slice/popUpSlice'
+import { closeAllPopup, toggleSettingPopup } from '../store/slice/popUpSlice'
 import { toast } from 'react-toastify'
 
 const SettingPopup = () => {
@@ -36,8 +36,8 @@ const SettingPopup = () => {
   }, [dispatch , loading, message])
   return (
     <div>
-       <div className='popup-overlay'>
-          <div className="admin-container">
+       <div className='popup-overlay' onClick={()=>{dispatch(toggleSettingPopup())}}>
+          <div className="admin-container " onClick={(e) => e.stopPropagation()}>
             <div className='admin-header'>
               <div className="admin-content">
                 <header className='admin-heading'>
@@ -48,7 +48,7 @@ const SettingPopup = () => {
                   <img src={closeIcon} alt="close-icon" onClick={()=>dispatch(toggleSettingPopup())} className='icon'/>
                 </header>
       
-                <form onSubmit={handleUpdatePassword}>
+                <form onSubmit={handleUpdatePassword} id='form-x'>
                   {/* Avatar selection */}
            
                 <div className="text-content">

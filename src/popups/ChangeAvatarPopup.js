@@ -40,8 +40,8 @@ const {user} = useSelector((state)=>state.auth)
     }, [dispatch, loading])
   return (
     <>
-         <div className='popup-overlay'>
-         <div className="admin-container" >
+         <div className='popup-overlay' onClick={()=>dispatch(toggleChangeAvatarPopup())}>
+         <div className="admin-container" onClick={(e) => e.stopPropagation()} >
            <div className='admin-header'>
              <div className="admin-content">
                <header className='admin-heading'>
@@ -52,7 +52,7 @@ const {user} = useSelector((state)=>state.auth)
                  <img src={closeIcon} alt="close-icon" onClick={()=>dispatch(toggleChangeAvatarPopup())}/>
                </header>
      
-               <form onSubmit={handleAvatar}>
+               <form onSubmit={handleAvatar} id='form-x'>
                  {/* Avatar selection */}
                  
                  <div className='avatar-section'>

@@ -18,12 +18,12 @@ const ReturnBookPopup = ({bookId, email}) => {
 
   return (
     <>
-     <div className='popup-overlay'>
-         <div className='admin-container'>
+     <div className='popup-overlay' onClick={()=>dispatch(togglereturnBookPopup())}>
+         <div className='admin-container 'onClick={(e) => e.stopPropagation()}>
            <div className='reading-content'>
              
                 <h3 className='text-xl'> remove Book</h3>
-                <form onSubmit={handleReturnBook}>
+                <form onSubmit={handleReturnBook} id='form-x'>
                  <div className="reading-header">
                    <label className='record-label'>User email</label>
                    <input type="email" defaultValue={email}  placeholder="return book email" className='borrow-input' required/>

@@ -10,7 +10,7 @@ import {RiAdminFill} from 'react-icons/ri'
 import Users_logo  from '../assets/people.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { Logout, resetAuthSlice } from '../store/slice/authSlice';
-import { toggleAddNewAdminPopup, toggleSettingPopup } from '../store/slice/popUpSlice';
+import { closeAllPopup, toggleAddNewAdminPopup, toggleSettingPopup } from '../store/slice/popUpSlice';
 import { toast } from 'react-toastify';
 import AddNewAdmin from '../popups/AddNewAdmin'
 import SettingPopup from '../popups/SettingPopup'
@@ -69,7 +69,10 @@ const {loading,
           <img src={Users_logo} alt="Users" />
           <span>Users</span>
         </button>
-        <button className='sideNavbtn ' onClick={()=>dispatch(toggleAddNewAdminPopup())} >
+        <button className='sideNavbtn ' onClick={() => dispatch(closeAllPopup(),
+                           setTimeout(() => {
+                          dispatch(toggleAddNewAdminPopup())
+                        }, 100))}>
           
           <RiAdminFill className="Riadmin" /> <span>Add new admin</span>
         </button>
@@ -86,7 +89,10 @@ const {loading,
           </>
         )
       }
-      <button className='sideNavbtn' onClick={()=>dispatch(toggleSettingPopup())}>
+      <button className='sideNavbtn' onClick={() => dispatch(closeAllPopup(),
+                         setTimeout(() => {
+                        dispatch(toggleSettingPopup())
+                      }, 200))}>
           <img src={setting_logo} alt="Users" />
           <span>Update Credentials</span>
         </button>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BookA, NotebookPen, Delete } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  closeAllPopup,
   toggleaddBookPopup,
   togglereadBookPopup,
   togglerecordBookPopup,
@@ -115,7 +116,10 @@ const BookManagement = () => {
           <div className="book-content">
             {isAuthenticated && user?.role === "Admin" && (
               <button
-                onClick={() => dispatch(toggleaddBookPopup())}
+                onClick={() => dispatch(closeAllPopup(),
+                   setTimeout(() => {
+                  dispatch(toggleaddBookPopup())
+                }, 200))}
                 className="btn3 btn-book"
               >
                 <span className="btn-span">+</span>

@@ -178,7 +178,7 @@ a{
 
 /* forget Password Logo */
 .logo{
-    font-size: 100px;
+    font-size: 90px;
     position: absolute;
     top: 10%;
     left: 50%;
@@ -291,7 +291,7 @@ form{
 }
 @media screen and (max-width:1024px) {
     .logo{
-        top: 15%;
+        top: 10%;
         font-size: 80px;
     }
     

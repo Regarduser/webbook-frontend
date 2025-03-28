@@ -21,13 +21,17 @@ const {loading,
     message,
     user,
     isAuthenticated} = useSelector((state) => state.auth)
+  const [isLoading, setIsLoading] = useState(false)
 
-const handleResetPassword = (e)=>{
+const handleResetPassword = async(e)=>{
     e.preventDefault();
+    setIsLoading(true)
     const data = new FormData();
     data.append("password", password)
     data.append("confirmPassword", confirmPassword)
-    dispatch(resetPassword(data, token))
+    await dispatch(resetPassword(data, token))
+    setIsLoading(false)
+
 }
 
 useEffect(()=>{
@@ -42,51 +46,73 @@ useEffect(()=>{
   }
 }, [dispatch, error, loading, message, navigate])
 
+ const [rloading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500); // ✅ Thoda wait karega taaki state load ho jaye
+    }, []);
 
 
+if (rloading) {
+  return (
+    <>
+        <div className="wrapper">
+      <div className="loader">
+          <span style={{"--i":1}}></span>
+          <span style={{"--i":2}}></span>
+          <span style={{"--i":3}}></span>
+          <span style={{"--i":4}}></span>
+          <span style={{"--i":5}}></span>
+          <span style={{"--i":6}}></span>
+          <span style={{"--i":7}}></span>
+      </div>
+       <svg className='svg2'>
+          <filter id="liquid">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+              <feColorMatrix type="matrix" values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 20 -10
+              "/>
+          </filter>
+      </svg>
+  </div>  
+    </>
+  ); 
+}
 
 
   return (
-     <>
-        <div className='otp-container'>
-          {/* left side */}
-          <div className='otp-left'>
-            <Link to={"/password/forgot"} className='otp-link'>&larr;  Back</Link>
-          <div className='otp-container-left'>
-              <div className='otp-text'>
-                <div className='otp-img'>
-                    <img src={logo} alt="logo" />
-                </div>
-              </div>
-              <h1 className='otp-message'>Reset Password</h1>
-              <p className='otp-p'>Please enter your new password</p>
-              <div className='otp-form'>
-              <form onSubmit={handleResetPassword}>
-                <div className='form2'>
-                  <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)} placeholder='password' className='form-input' />
-                  <input type="password" value={confirmPassword} onChange={(e) =>setConfirmPassword(e.target.value)} placeholder='confirm password' className='form-input' />
-              
-                </div>
-              <button type='submit' className='btn-2'>Reset Password</button>
-              </form>
-              </div>
-              
-          </div>
-          </div>
-    
-          {/* right side */}
-          <div className='md-hidden otp-right'>
-            <div>
-              <div className='otp-img2'>
-                <img src={logo_with_title} alt="logo" />
-              </div>
-              <p className='otp-p2'>New to our platform? Sign up now.</p>
-              <Link to={"/register"} className='btn-2'>Sign Up</Link>
-            </div>
-          </div>
-        </div>
-          
-        </>
+    <>
+    <div className='login-body'>
+       <div className="back-btn" >
+       <Link to="/login" className="back-space"> &larr; Back</Link>
+   </div>
+   <div className="Main-header">
+       <div className="Name-header">
+           <header>Reset Password</header>
+           <p>Create strong password for <br/>Your account</p>
+       </div>
+       <form onSubmit={handleResetPassword}>
+       <div className="input-box">
+       <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)} placeholder='New Password' className='input-field' />
+       
+       </div>
+       <div className="input-box">
+       <input type="password" value={confirmPassword} onChange={(e) =>setConfirmPassword(e.target.value)} placeholder='Confirm Password' className='input-field' />
+       </div>
+       <div className="input-submit">
+           <button className="submit-btn" id="submit" >{isLoading ? "Changing..." : "Submit"}</button>
+       </div>
+       </form>
+       
+   </div>
+   </div>
+         
+       </>
   )
 }
 
